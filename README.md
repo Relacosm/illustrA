@@ -20,11 +20,12 @@ git clone https://github.com/yourusername/illutrA.git
 
 ```
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License
 
-Acknowledgements
-Thanks to all the contributors who make this project possible.
-Special thanks to the creators of the libraries and frameworks that help power this tool.
-css
-Copy code
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- Thanks to all the contributors who make this project possible.
+- Special thanks to the creators of the libraries and frameworks that help power this tool.
+
