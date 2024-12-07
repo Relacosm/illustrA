@@ -1,9 +1,9 @@
-# illutrA - Art Generator
+# illustrA - Art Generator
 
-illutrA is an innovative art generator that allows users to create stunning and intricate artwork. Whether you're looking to generate fractals, tessellations, mandalas, spirographs, landscapes, abstract art forms, or simply want to draw on a canvas, illutrA provides the tools to bring your artistic visions to life.
+illustrA is an innovative art generator that allows users to create stunning and intricate artwork. Whether you're looking to generate fractals, tessellations, mandalas, spirographs, landscapes, abstract art forms, or simply want to draw on a canvas, illutrA provides the tools to bring your artistic visions to life.
 
 ## Live Demo
-- **illutrA - Art Generator**: [illustra.vercel.app](https://illustra.vercel.app)
+- **illustrA - Art Generator**: [illustra.vercel.app](https://illustra.vercel.app)
 
 ## Features
 - **Fractals**: Generate beautiful fractal patterns with endless detail.
@@ -16,7 +16,7 @@ illutrA is an innovative art generator that allows users to create stunning and 
 
 ## Installation
 
-To use illutrA, clone this repository to your local machine:
+To use illustrA, clone this repository to your local machine:
 
 ```bash
 git clone https://github.com/Relacosm/illutrA.git
