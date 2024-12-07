@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Enhanced Art Generator',
+  title: 'illustrA',
   description: 'Create and explore various forms of digital art with interactive controls',
 }
 
