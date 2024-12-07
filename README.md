@@ -19,7 +19,7 @@ illutrA is an innovative art generator that allows users to create stunning and 
 To use illutrA, clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/illutrA.git
+git clone https://github.com/Relacosm/illutrA.git
 
 ```
 
