@@ -23,41 +23,69 @@ const PaintCanvas = forwardRef(({ brushSize, eraserSize, color, mode }: PaintCan
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const handleMouseDown = (e: MouseEvent) => {
-      isDrawing.current = true
-      ;[lastX.current, lastY.current] = [e.offsetX, e.offsetY]
+    const getCoordinates = (e: MouseEvent | TouchEvent): [number, number] => {
+      const rect = canvas.getBoundingClientRect()
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+
+      if (e instanceof MouseEvent) {
+        return [
+          (e.clientX - rect.left) * scaleX,
+          (e.clientY - rect.top) * scaleY
+        ]
+      } else {
+        const touch = e.touches[0]
+        return [
+          (touch.clientX - rect.left) * scaleX,
+          (touch.clientY - rect.top) * scaleY
+        ]
+      }
     }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDrawing.current) return
+    const startDrawing = (e: MouseEvent | TouchEvent) => {
+      isDrawing.current = true
+      ;[lastX.current, lastY.current] = getCoordinates(e)
+    }
 
-      const x = e.offsetX
-      const y = e.offsetY
+    const draw = (e: MouseEvent | TouchEvent) => {
+      if (!isDrawing.current) return
+      e.preventDefault()
+
+      const [x, y] = getCoordinates(e)
       const speed = Math.sqrt(Math.pow(x - lastX.current, 2) + Math.pow(y - lastY.current, 2))
       lastSpeed.current = speed
 
-      draw(ctx, x, y)
+      drawLine(ctx, lastX.current, lastY.current, x, y)
       ;[lastX.current, lastY.current] = [x, y]
     }
 
-    const handleMouseUp = () => {
+    const stopDrawing = () => {
       isDrawing.current = false
     }
 
-    canvas.addEventListener('mousedown', handleMouseDown)
-    canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseup', handleMouseUp)
+    canvas.addEventListener('mousedown', startDrawing)
+    canvas.addEventListener('mousemove', draw)
+    canvas.addEventListener('mouseup', stopDrawing)
+    canvas.addEventListener('mouseout', stopDrawing)
+
+    canvas.addEventListener('touchstart', startDrawing)
+    canvas.addEventListener('touchmove', draw)
+    canvas.addEventListener('touchend', stopDrawing)
 
     return () => {
-      canvas.removeEventListener('mousedown', handleMouseDown)
-      canvas.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseup', handleMouseUp)
+      canvas.removeEventListener('mousedown', startDrawing)
+      canvas.removeEventListener('mousemove', draw)
+      canvas.removeEventListener('mouseup', stopDrawing)
+      canvas.removeEventListener('mouseout', stopDrawing)
+      canvas.removeEventListener('touchstart', startDrawing)
+      canvas.removeEventListener('touchmove', draw)
+      canvas.removeEventListener('touchend', stopDrawing)
     }
   }, [brushSize, eraserSize, color, mode])
 
-  const draw = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
+  const drawLine = (ctx: CanvasRenderingContext2D, x1: number, y1: number, x2: number, y2: number) => {
     ctx.beginPath()
-    ctx.moveTo(lastX.current, lastY.current)
+    ctx.moveTo(x1, y1)
 
     if (mode === 'eraser') {
       ctx.globalCompositeOperation = 'destination-out'
@@ -75,7 +103,8 @@ const PaintCanvas = forwardRef(({ brushSize, eraserSize, color, mode }: PaintCan
     }
 
     ctx.lineCap = 'round'
-    ctx.lineTo(x, y)
+    ctx.lineJoin = 'round'
+    ctx.lineTo(x2, y2)
     ctx.stroke()
   }
 
@@ -91,6 +120,7 @@ const PaintCanvas = forwardRef(({ brushSize, eraserSize, color, mode }: PaintCan
       }}
       width={800}
       height={600}
+      style={{ touchAction: 'none' }}
       className="w-full h-auto border border-gray-300 rounded-lg shadow-md"
     />
   )
